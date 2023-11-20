@@ -4,7 +4,7 @@ on: push
 
 env:
   CURL_OPTIONS: "--fail-with-body --location --show-error --silent"
-  BUILD_NUMBER: "3"
+  BUILD_NUMBER: "4"
 
 defaults:
   run:
