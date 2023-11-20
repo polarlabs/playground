@@ -22,7 +22,7 @@ jobs:
              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
              -H "X-GitHub-Api-Version: 2022-11-28" \
              ${{ github.api_url }}/repos/${{ github.repository }}/git/matching-refs/tags/b \
-             | jq '.[].ref' \
+             | jq -r '.[].ref' \
              | sort \
              | tail -1 \
              | rev \
@@ -30,7 +30,7 @@ jobs:
 
       - name: echo
         run: |
-             echo ${{ env.LAST_BUILD_NUMBER }}
+             echo "${{ env.LAST_BUILD_NUMBER }}"
 
       - name: create-tag-object
         run: |
