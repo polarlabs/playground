@@ -10,11 +10,12 @@ defaults:
     shell: bash
 
 jobs:
-  call-workflow:
+  set-build-number:
     uses: polarlabs/factory/.github/workflows/set-build-number.yml@main
 
   add-build-number:
     runs-on: ubuntu-latest
+    needs: [set-build-number]
 
     steps:
       - name: create tag object
