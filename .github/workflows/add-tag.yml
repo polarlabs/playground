@@ -10,17 +10,17 @@ defaults:
     shell: bash
 
 jobs:
-  set-build-number:
-    uses: polarlabs/factory/.github/workflows/set-build-number.yml@main
+  get-next-build:
+    uses: polarlabs/factory/.github/workflows/get-next-build.yml@main
 
-  add-build-number:
+  add-build-tag:
     runs-on: ubuntu-latest
-    needs: [set-build-number]
+    needs: [get-next-build]
 
     steps:
       - name: create tag object
         env:
-          BUILD_NUMBER: ${{ needs.set-build-number.outputs.BUILD_NUMBER }}
+          BUILD_TAG: ${{ needs.get-next-build.outputs.BUILD_TAG }}
         run: |
              curl ${{ env.CURL_OPTIONS }} \
              -X POST \
@@ -28,14 +28,14 @@ jobs:
              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
              -H "X-GitHub-Api-Version: 2022-11-28" \
              ${{ github.api_url }}/repos/${{ github.repository }}/git/tags \
-             --data '{ "tag": "build/${{ env.BUILD_NUMBER }}", 
-                       "message": "auto incremented build number", 
+             --data '{ "tag": "${{ env.BUILD_TAG }}", 
+                       "message": "auto incremented build number",  
                        "object": "${{ github.sha }}", 
                        "type": "commit" }'
 
       - name: create ref
         env:
-          BUILD_NUMBER: ${{ needs.set-build-number.outputs.build_number }}
+          BUILD_TAG: ${{ needs.get-next-build.outputs.BUILD_TAG }}
         run: |
              curl ${{ env.CURL_OPTIONS }} \
              -X POST \
@@ -43,5 +43,5 @@ jobs:
              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
              -H "X-GitHub-Api-Version: 2022-11-28" \
              ${{ github.api_url }}/repos/${{ github.repository }}/git/refs \
-             --data '{ "ref": "refs/tags/build/${{ env.BUILD_NUMBER }}", 
+             --data '{ "ref": "refs/tags/${{ env.BUILD_TAG }}", 
                        "sha": "${{ github.sha }}" }'
