@@ -23,7 +23,7 @@ jobs:
              -H "X-GitHub-Api-Version: 2022-11-28" \
              ${{ github.api_url }}/repos/${{ github.repository }}/git/matching-refs/tags/build/ \
              | jq -r '.[].ref' \
-             | cut --delimiter="/" --only-delimited --fields 4
+             | cut --delimiter="/" --only-delimited --fields 4 \
              | sort --general-numeric-sort \
              | tail -1 )" >> "$GITHUB_ENV"
 
