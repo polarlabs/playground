@@ -11,7 +11,7 @@ defaults:
 
 jobs:
   call-workflow:
-    uses: polarlabs/.github/workflows/set-build-number.yml
+    uses: polarlabs/.github/workflows/set-build-number.yml@main
 
   add-build-number:
     runs-on: ubuntu-latest
