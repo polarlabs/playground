@@ -14,23 +14,23 @@ jobs:
   add-build-number:
     runs-on: ubuntu-latest
     steps:
-      - name: enumerate-all-build-numbers
+      - name: get-highest-build-number
         run: |
              echo "LAST_BUILD_NUMBER=$(curl ${{ env.CURL_OPTIONS }} \
              -X GET \
              -H "Accept: application/vnd.github+json" \
              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
              -H "X-GitHub-Api-Version: 2022-11-28" \
-             ${{ github.api_url }}/repos/${{ github.repository }}/git/matching-refs/tags/b \
+             ${{ github.api_url }}/repos/${{ github.repository }}/git/matching-refs/tags/build/ \
              | jq -r '.[].ref' \
-             | sort \
-             | tail -1 \
-             | rev \
-             | cut --delimiter="/" --only-delimited --fields 1 )" >> "$GITHUB_ENV"
+             | cut --delimiter="/" --only-delimited --fields 4
+             | sort --general-numeric-sort \
+             | tail -1 )" >> "$GITHUB_ENV"
 
       - name: echo
         run: |
-             echo "${{ env.LAST_BUILD_NUMBER }}"
+             INTEGER_REGEX='^[1-9][0-9]+$'
+             [[ ${{ env.LAST_BUILD_NUMBER }} =~ $INTEGER_REGEX ]] && echo "✅" || echo "❌" 
 
       - name: create-tag-object
         run: |
