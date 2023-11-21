@@ -19,6 +19,8 @@ jobs:
 
     steps:
       - name: create tag object
+        env:
+          BUILD_NUMBER: ${{ needs.set-build-number.outputs.build_number }}
         run: |
              curl ${{ env.CURL_OPTIONS }} \
              -X POST \
@@ -32,6 +34,8 @@ jobs:
                        "type": "commit" }'
 
       - name: create ref
+        env:
+          BUILD_NUMBER: ${{ needs.set-build-number.outputs.build_number }}
         run: |
              curl ${{ env.CURL_OPTIONS }} \
              -X POST \
