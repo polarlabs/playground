@@ -29,7 +29,7 @@ jobs:
 
       - name: check BUILD_NUMBER
         run: |
-             INTEGER_REGEX='^[1-9][0-9]+$'
+             INTEGER_REGEX='^[1-9][0-9]*$'
              if [[ ${{ env.BUILD_NUMBER }} =~ $INTEGER_REGEX ]]; then
                echo "::notice title=BUILD_NUMBER::✅ BUILD_NUMBER is int"
                echo "BUILD_NUMBER=$((${{ env.BUILD_NUMBER }} + 1))" >> $GITHUB_ENV
