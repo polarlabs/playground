@@ -14,7 +14,7 @@ jobs:
   add-build-number:
     runs-on: ubuntu-latest
     steps:
-      - name: get-highest-build-number
+      - name: get BUILD_NUMBER
         run: |
              echo "BUILD_NUMBER=$(curl ${{ env.CURL_OPTIONS }} \
              -X GET \
@@ -27,7 +27,7 @@ jobs:
              | sort --general-numeric-sort \
              | tail -1 )" >> "$GITHUB_ENV"
 
-      - name: check BUILD_NUMBER
+      - name: increment BUILD_NUMBER
         run: |
              INTEGER_REGEX='^[1-9][0-9]*$'
              if [[ ${{ env.BUILD_NUMBER }} =~ $INTEGER_REGEX ]]; then
@@ -38,7 +38,7 @@ jobs:
                exit 1
              fi
 
-      - name: create-tag-object
+      - name: create tag object
         run: |
              curl ${{ env.CURL_OPTIONS }} \
              -X POST \
@@ -51,7 +51,7 @@ jobs:
                        "object": "${{ github.sha }}", 
                        "type": "commit" }'
 
-      - name: create-reference
+      - name: create ref
         run: |
              curl ${{ env.CURL_OPTIONS }} \
              -X POST \
