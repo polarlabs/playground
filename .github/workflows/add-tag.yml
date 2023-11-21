@@ -31,9 +31,10 @@ jobs:
         run: |
              INTEGER_REGEX='^[1-9][0-9]+$'
              if [[ ${{ env.LAST_BUILD_NUMBER }} =~ $INTEGER_REGEX ]]; then
-               echo "::notice title=✅ HIGHEST_BUILD_NUMBER::${{ env.LAST_BUILD_NUMBER }}"
+               echo "::notice title=HIGHEST_BUILD_NUMBER::✅ HIGHEST_BUILD_NUMBER is int"
              else
-               echo "::error title=❌ HIGHEST_BUILD_NUMBER::not an INTEGER"
+               echo "::error title=HIGHEST_BUILD_NUMBER::❌ HIGHEST_BUILD_NUMBER not an int"
+               exit 1
              fi
 
       - name: create-tag-object
