@@ -9,6 +9,7 @@ on:
 
 jobs:
   echo:
-    - run
-        |
-        echo "Triggered"
+    steps:
+      - name: Echo
+        run: |
+             echo "Triggered"
