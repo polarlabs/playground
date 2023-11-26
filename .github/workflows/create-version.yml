@@ -14,4 +14,4 @@ jobs:
     steps:
       - name: Echo
         run: |
-             echo "Triggered"
+             echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
