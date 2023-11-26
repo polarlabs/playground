@@ -7,8 +7,15 @@ on:
     tags:
       - v/*.*.*
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  echo:
+  tag-ref-as-build:
+    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@v/1.0.0
+
+  set-version-string:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,6 +23,14 @@ jobs:
         run: |
              echo "VERSION_STRING=${GITHUB_REF_NAME}" >> $GITHUB_ENV
 
+  echo-env-vars:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Echo Version string
         run: |
           echo "Version: $VERSION_STRING"
+
+      - name: Echo Build number
+        run: |
+          echo "Build: $BUILD_NUMBER"
