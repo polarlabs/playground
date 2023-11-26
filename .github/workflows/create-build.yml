@@ -1,0 +1,19 @@
+name: create build
+
+on:
+  push:
+    branches:
+      - "feat/*"
+      - "rel/*"
+      - "patch/*"
+  pull_request:
+    branches:
+      - "dev"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tag-ref-as-build:
+    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@v/1.0.0
