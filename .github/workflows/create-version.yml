@@ -9,6 +9,8 @@ on:
 
 jobs:
   echo:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Echo
         run: |
