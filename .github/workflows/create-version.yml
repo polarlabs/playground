@@ -1,0 +1,14 @@
+name: create version
+
+on:
+  create:
+    branches:
+      - main
+    tags:
+      - v/*.*.*
+
+jobs:
+  echo:
+    - run
+        |
+        echo "Triggered"
