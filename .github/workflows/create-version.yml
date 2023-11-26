@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Echo
+      - name: Set env
         run: |
-             echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+             echo "VERSION_STRING=${GITHUB_REF_NAME}" >> $GITHUB_ENV
+
+      - name: Echo Version string
+        run: |
+          echo "Version: $VERSION_STRING"
