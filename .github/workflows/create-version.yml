@@ -1,0 +1,44 @@
+name: create version
+
+on:
+  create:
+    branches:
+      - main
+    tags:
+      - v/*.*.*
+
+env:
+  VERSION_STRING: "0.0.0"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tag-ref-as-build:
+    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@v/1.0.0
+
+  set-version-string:
+    runs-on: ubuntu-latest
+
+    outputs:
+      VERSION_STRING: ${{ steps.set-version-string.outputs.VERSION_STRING }}
+
+    steps:
+      - name: Set version string
+        id: set-version-string
+        run: |
+             echo "VERSION_STRING=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
+  echo-env-vars:
+    runs-on: ubuntu-latest
+    needs: [tag-ref-as-build, set-version-string]
+
+    steps:
+      - name: Echo Version string
+        run: |
+          echo "Version: ${{ needs.set-version-string.outputs.VERSION_STRING }}"
+
+      - name: Echo Build number
+        run: |
+          echo "Build: ${{ needs.tag-ref-as-build.outputs.BUILD_NUMBER }}"
