@@ -1,0 +1,30 @@
+name: create build
+
+on:
+  push:
+    branches:
+      - "feat/*"
+      - "rel/*"
+      - "patch/*"
+  pull_request:
+    branches:
+      - "dev"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tag-ref-as-build:
+    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@feat/set-build-as-output
+
+  return-build:
+    runs-on: ubuntu-latest
+    needs: [tag-ref-as-build]
+
+    steps:
+      - name: Echo BUILD_NUMBER and BUILD_TAG
+        id: return-build
+        run: |
+          echo "${{ env.BUILD_NUMBER }}"
+          echo "${{ env.BUILD_TAG }}"
