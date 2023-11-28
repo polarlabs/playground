@@ -16,4 +16,15 @@ defaults:
 
 jobs:
   tag-ref-as-build:
-    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@v/1.0.0
+    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@feat/set-build-as-output
+
+  return-build:
+    runs-on: ubuntu-latest
+    needs: [tag-ref-as-build]
+
+    steps:
+      - name: Echo BUILD_NUMBER and BUILD_TAG
+        id: return-build
+        run: |
+          echo "${{ env.BUILD_NUMBER }}"
+          echo "${{ env.BUILD_TAG }}"
