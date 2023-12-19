@@ -1,7 +1,7 @@
 name: create test tag
 
 on:
-  create:
+  push:
     tags:
       - "test/*"
 
