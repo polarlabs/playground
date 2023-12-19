@@ -16,7 +16,7 @@ defaults:
 
 jobs:
   tag-ref-as-build:
-    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@feat/set-build-as-output
+    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@v/4.0.0
 
   return-build:
     runs-on: ubuntu-latest
