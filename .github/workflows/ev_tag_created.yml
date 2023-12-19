@@ -1,0 +1,28 @@
+name: create test tag
+
+on:
+  create:
+    tags:
+      - "test/*"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tag-ref-as-build:
+    uses: polarlabs/factory/.github/workflows/tag-ref-as-build.yml@feat/set-build-as-output
+
+  return-build:
+    runs-on: ubuntu-latest
+    needs: [tag-ref-as-build]
+
+    steps:
+      - name: Echo BUILD_NUMBER and BUILD_TAG
+        id: return-build
+        env:
+          BUILD_NUMBER: ${{ needs.tag-ref-as-build.outputs.BUILD_NUMBER }}
+          BUILD_TAG: ${{ needs.tag-ref-as-build.outputs.BUILD_TAG }}
+        run: |
+          echo "${{ env.BUILD_NUMBER }}"
+          echo "${{ env.BUILD_TAG }}"
