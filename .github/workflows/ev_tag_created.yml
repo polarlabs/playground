@@ -1,14 +1,9 @@
-name: create build
+name: create test tag
 
 on:
-  push:
-    branches:
-      - "feat/*"
-      - "rel/*"
-      - "patch/*"
-  pull_request:
-    branches:
-      - "dev"
+  create:
+    tags:
+      - "test/*"
 
 defaults:
   run:
